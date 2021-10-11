@@ -1,0 +1,26 @@
+.sidenav-container {
+  height: 100%;
+  background:url(src\app\images\s72.jpg);
+}
+.mat-icon {
+  transform: scale(1.5);
+}
+.sidenav {
+  width: 200px;
+ 
+}
+.carousel-example-1z{
+  max-height: 900px !important;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+.mat-toolbar{font-size: 1.5em; color: crimson; 	font-family:'Roboto, monospace';text-transform: inherit;
+}
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.mat-sidenav{  background-color: '#fcba03'!important;}

@@ -1,0 +1,83 @@
+<div class="container">
+    <h1 mat-dialog-title >Liste des publications</h1>
+    <div class="grid-table " >
+        <div class="thead">
+            <div class="tr">
+                <div class="td" >Titre</div>
+                <div class="td" >Type</div>
+                <div class="td" >Lien</div>
+                <div class="td" >Source PDF</div>
+                <div class="td" >Date Apparition</div>
+                <div class="td">
+                    <button class="btn btn-outline-success" (click)="addMatiereForms()">
+                        <i class="fa fa-plus"></i> Nouvelle Publication
+                    </button>
+                </div>
+                
+               
+                <div class="td">
+                    <span *ngIf="notification" class="elementToFadeInAndOut">
+                        <i class="fas fa-check-circle {{notification.class}}"></i>
+                        {{notification.message}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="tbody">
+            <form class="tr" [formGroup]="fg" *ngFor="let fg of matiereForms.controls, let i=index" (submit)="recordSubmit(fg)">
+                <div class="td">
+                    <input class="form-control" formControlName="titre">
+                </div>
+                <div class="td">
+                    <select class="form-control"   formControlName="type">
+                        <option value="">Select</option>
+                        <option value="journal"> journal</option>
+                        <option value="article"> article</option>
+                        <option value="chapitre de livre">chapitre de livre</option>
+                        <option value="livre">livre</option>
+                        <option value="poster">poster</option>
+                    </select>
+                  </div>
+          
+                    <div class="td">
+                        <input class="form-control" formControlName="lien">
+                    </div>
+                    <div class="td">
+               
+                        <input class="form-control" formControlName="sourcePdf">
+                    </div>
+                    <div class="td">
+                        <input class="form-control" formControlName="dateApparition">
+                    </div>  
+                <div class="td">
+                    <button type="submit" class="btn btn-success" [disabled]="fg.invalid"
+                    [ngClass]="(fg.get('id').value==0)?'btn-success':'btn-outline-dark'"> <i class="far fa-save fa-lg"></i> 
+                        <!-- tester le codefil si =0 submit sinon le botton c'est un update -->
+                        {{fg.get('id').value==0?'Submit':'Update'}}
+                    </button>
+    
+                    <button  class="btn btn-light ml-1" (click)="onDelete(fg.get('id').value,i)">
+                        <i class="far fa-trash-alt fa-lg text-danger"></i>
+                    </button>
+                </div>
+               
+            </form>
+        </div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

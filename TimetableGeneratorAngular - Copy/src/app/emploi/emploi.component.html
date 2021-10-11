@@ -1,0 +1,117 @@
+<div class="container">
+  <h1 mat-dialog-title>Liste des evenements</h1>
+  <div>
+    <button mat-raised-button (click)="openDialog()"class="btn btn-outline-info"><i class="fas fa-angle-down"></i> Evenements</button>
+</div>
+  <div class="row justify-content-center" style=" padding-bottom: 50px;">
+    <div class="col-3"><div ><button (click)=openChoice(EmploiComponent.is) class="btn btn-outline" style="background-color: rgba(235, 86, 17, 0.534); height:  80px!important;font-size: 1.5em;padding:  20px!important;">Calendrier</button></div></div>
+  </div>
+
+</div>
+
+
+<div class="grid-table" *ngIf="grp">
+    <div class="thead">
+        <div class="tr">
+            
+
+          <div class="td" > 
+              <p>Etablissement</p>
+              <select class="form-control" (change)="SearchFil($event)" > 
+                <option >Select</option>
+                <option *ngFor="let item of filiere" value="{{item.codeFil}}">{{item.nomFil}}</option>
+                 
+                 
+              </select>
+  
+          </div>
+        
+          <div class="td"> 
+              <p>Grade</p>
+              <select class="form-control"  (change)="SearchNiveau($event)" > 
+                  <option >Select</option>
+                  <option *ngFor="let niv of niveau" value="{{niv.idNiv}}">{{niv.numNiv}}</option>
+              </select>
+  
+          </div>
+          <div class="td"> 
+            <p>Groupe</p>
+            <select class="form-control" (change)="SearchGroup($event)" > 
+                <option >Select</option>
+                <option *ngFor="let item of groupe" value="{{item.idGroup}}">{{item.nomGroup}}</option>
+          </select></div>
+  
+        </div>
+    </div>
+   
+  </div>
+
+  <div class="grid-table" *ngIf="ens">
+    <div class="thead">
+        <div class="tr">
+            
+            
+          <div class="td" > 
+              <p>Enseignants</p>
+              <select class="form-control"  (change)="SearchEns($event)" > 
+                <option value="0">Select</option>
+                <option *ngFor="let item of enseignant" value="{{item.idEns}}">{{item.nomEns+item.prenomEns}}</option>  
+              </select>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="grid-table " >
+    <div class="thead">
+        <div class="tr">
+            <div class="td">titre </div>
+            <div class="td">lieu</div>
+            <div class="td">date Debut </div>
+            <div class="td">date Fin </div>
+
+            <div class="td">
+                <button class="btn btn-outline-success" (click)="addSeanceForms()">
+                    <i class="fa fa-plus"></i> Nouveau Evenement
+                </button>
+            </div>
+            
+           
+            <div class="td">
+                <span *ngIf="notification" class="elementToFadeInAndOut">
+                    <i class="fas fa-check-circle {{notification.class}}"></i>
+                    {{notification.message}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="tbody">
+        <form class="tr" [formGroup]="fg" *ngFor="let fg of seanceForms.controls, let i=index" (submit)="recordSubmit(fg)">
+            <div class="td">
+                <input class="form-control" formControlName="titre">
+            </div>
+            <div class="td">
+                <input class="form-control" formControlName="lieu">
+            </div>
+            <div class="td">
+                <input class="form-control" type ="datetime" formControlName="dateDebut">
+            </div>
+                <div class="td">
+                <input class="form-control" type ="datetime"formControlName="dateFin">
+            </div>
+            <div class="td">
+                <button type="submit" class="btn btn-success" [disabled]="fg.invalid"
+                [ngClass]="(fg.get('id').value==0)?'btn-success':'btn-outline-dark'"> <i class="far fa-save fa-lg"></i> 
+                    <!-- tester le codefil si =0 submit sinon le botton c'est un update -->
+                    {{fg.get('id').value==0?'Submit':'Update'}}
+                </button>
+
+                <button  class="btn btn-light ml-1" (click)="onDelete(fg.get('id').value,i)">
+                    <i class="far fa-trash-alt fa-lg text-danger"></i>
+                </button>
+            </div>
+           
+        </form>
+    </div>
+</div>
+<full-calendar [options]="calendarOptions "*ngIf="EmploiComponent.is" style=" width:1700px;  padding: 100px;" ></full-calendar>

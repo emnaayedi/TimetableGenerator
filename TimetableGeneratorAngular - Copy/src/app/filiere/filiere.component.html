@@ -1,0 +1,120 @@
+<div class="container">
+    <h1 mat-dialog-title >Liste des Filieres</h1>
+<div class="grid-table">
+    <div class="thead">
+        <div class="tr">
+            <div class="td" style="width: auto; margin-left: 200px;">Nom Filiere</div>
+            <div class="td">Liste Groupes</div>
+            <div class="td">
+                <button class="btn btn-outline-success" (click)="addFiliereForms()">
+                    <i class="fa fa-plus"></i> New Filiere
+                </button>
+            </div>
+            
+           
+            <div class="td">
+                <span *ngIf="notification" class="elementToFadeInAndOut">
+                    <i class="fas fa-check-circle {{notification.class}}"></i>
+                    {{notification.message}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="tbody">
+        <form class="tr" [formGroup]="fg" *ngFor="let fg of filierForms.controls ,let i=index" (submit)="recordSubmit(fg)">
+            
+            <div class="td">
+                <input class="form-control" formControlName="NomFil">
+            </div>
+            <!-- //(click)="openDialog(ModulesComponent.open)" -->
+            <div class="td">
+                <button type="button" (click)="openDialog(fg.get('CodeFil').value)" class="btn btn-outline-success"> <i class="fa fa-plus"></i>
+                    Affichier
+                </button>
+                           
+<div class="grid-table" *ngIf=" fg.get('CodeFil').value==FiliereComponent.val && open">
+    <div class="thead">
+        <div class="tr">
+            <div class="td" style="width: auto; margin-left: 200px;">  {{fg.get('NomFil').value}}</div>
+            <div class="td">Niveau</div>
+            <div class="td">Groupe</div>
+            
+            <div class="td">
+                <button type="button" class="btn btn-outline-success" (click)="addClassForms()">
+                    <i class="fa fa-plus"></i> New Class
+                </button>
+            </div>
+            
+           
+            <div class="td">
+                <span *ngIf="notificationG" class="elementToFadeInAndOut">
+                    <i class="fas fa-check-circle {{notificationG.class}}"></i>
+                    {{notificationG.message}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="tbody">
+        <form class="tr" [formGroup]="fgg" *ngFor="let fgg of classForms.controls ,let i=index" (submit)="recordSubmitG(fgg)">
+            <ng-container *ngIf="(fgg.get('FiliereId').value==FiliereComponent.val && fgg.get('FiliereId').value==fg.get('CodeFil').value)|| 
+            FiliereComponent.clickAdd==true">
+
+            <div   class="td">
+                 <select class="form-control" formControlName="FiliereId" (change)="SearchFil($event)">
+                   
+                            <option value="{{fg.get('CodeFil').value}}"> {{fg.get('NomFil').value}} </option>
+               </select> 
+
+            </div>
+            <div class="td"> 
+           
+                <select class="form-control" formControlName="NiveauId" (change)="SearchNiveau($event)" > 
+                    <option >Select</option>
+                    <option *ngFor="let niv of niveau" value="{{niv.idNiv}}">{{niv.numNiv}}</option>
+                </select>
+    
+            </div>
+            <div class="td"> 
+        
+             <select class="form-control" formControlName="GroupeId" (change)="SearchGroup($event)" > 
+                  <option >Select</option>
+                  <option *ngFor="let item of groupe" value="{{item.idGroup}}">{{item.nomGroup}}</option>
+            </select></div>
+            <div class="td">
+               
+                <button type="submit" class="btn btn-success" [disabled]="fgg.invalid"style="margin-left: 20px;"
+                [ngClass]="(fgg.get('GroupeId').value==0)?'btn-success':'btn-outline-dark'"> <i class="far fa-save fa-lg"></i> 
+                    <!-- tester le codefil si =0 submit sinon le botton c'est un update -->
+                   
+                </button>
+
+                <button class="btn btn-light ml-1" (click)="onDeleteG(fgg.get('FiliereId').value,i)">
+                    <i class="far fa-trash-alt fa-lg text-danger"></i>
+                </button>
+
+                
+            </div>
+        </ng-container> 
+</form>
+    </div>
+</div>
+
+            </div>
+
+           
+            <div class="td">
+                <button type="submit" class="btn btn-success" [disabled]="fg.invalid" style="margin-left: 20px;"
+                [ngClass]="(fg.get('CodeFil').value==0)?'btn-success':'btn-outline-dark'"> <i class="far fa-save fa-lg"></i> 
+                    <!-- tester le codefil si =0 submit sinon le botton c'est un update -->
+                    {{fg.get('CodeFil').value==0?'Submit':'Update'}}
+                </button>
+
+                <button class="btn btn-light ml-1" (click)="onDelete(fg.get('CodeFil').value,i)">
+                    <i class="far fa-trash-alt fa-lg text-danger"></i>
+                </button>
+        
+            </div>   
+        </form>
+    </div>
+</div>
+</div>

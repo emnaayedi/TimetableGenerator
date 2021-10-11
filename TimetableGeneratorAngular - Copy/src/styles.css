@@ -1,0 +1,88 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+.grid-table
+{
+	display:table;
+}
+.thead
+{
+	display:table-header-group;
+	font-weight:bold;
+	border-bottom: 1px solid black;
+    text-align: center;
+	background-color: #c0cfcd;
+
+}
+
+.tbody
+{
+	display:table-row-group;
+}
+.tr
+{
+	display:table-row;
+	
+}
+.td
+{
+	display:table-cell;
+	padding: 10px 1px 1px 5px;
+}
+.thead div.tr div.td:last-child{
+    background-color: #fff;
+}
+i:hover{
+	cursor: pointer;
+}
+.btn btn-outline{
+	max-width:100px ;
+	max-height: 50px;
+}
+
+input.ng-invalid.ng-touched,select.ng-invalid.ng-touched{
+	border-color: #dc3545;
+}
+
+
+.elementToFadeInAndOut {
+    -webkit-animation: fadeinout 2s linear forwards;
+    animation: fadeinout 2s linear forwards;
+    opacity: 0;
+}
+
+@-webkit-keyframes fadeinout {
+  50% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  50% { opacity: 1; }
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.fc-event-title{
+  
+    font-size: 1.3em;            /* EDIT HERE */
+
+}
+
+.container{
+   
+    padding-top:50px;
+    max-width: 1800px;
+	margin-left: 50px;
+	
+	}
+.mat-h1, .mat-headline, .mat-typography h1 {
+	color: #a3242b;
+	margin-bottom: 50px;
+	background-color: rgba(13, 15, 15, 0.274)!important;
+	border-color: teal;
+	font-family:'Roboto, monospace';
+	font-size: 3em!important;
+	padding:10px;
+}
+table {
+    width: 100%;
+  }

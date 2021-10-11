@@ -1,0 +1,11 @@
+.carousel-inner > .item {
+    position: relative !important;
+    display: none!important;
+    -webkit-transition: 0.2s ease-in-out left!important;
+    -moz-transition: 0.2s ease-in-out left!important;
+    -o-transition: 0.2s ease-in-out left!important;
+    transition: 0.2s ease-in-out left!important;
+}
+.x{
+	font-size: 1em !important;
+}

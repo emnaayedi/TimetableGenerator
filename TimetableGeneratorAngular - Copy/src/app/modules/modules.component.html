@@ -1,0 +1,246 @@
+
+<div class="container">
+  <h1 mat-dialog-title style="margin:10px;color: #842e1b;">Liste des Membres</h1>
+  <div>
+    <button mat-raised-button class="btn btn-info" style="margin: 20px;"><i class="fas fa-angle-down"></i>  Modules</button>
+   
+    <div class="row justify-content-center" style=" padding-bottom: 50px;">
+      <div class="col-3"><div ><button (click)=openChoiceEtudiant() 
+        class="btn btn-outline" style="background-color: rgba(235, 86, 17, 0.534); height:  80px!important;font-size: 1.5em;padding: 
+         20px!important;">Etudiant</button></div></div>
+
+      <div class="col-3"><div ><button (click)=openChoiceEnseignant()
+         class="btn btn-outline"style="background-color: rgba(235, 86, 17, 0.534);
+          height:  80px!important;font-size: 1.5em;padding:  20px!important;">Enseignant</button></div></div>
+    </div>
+  </div>
+  <div class="grid-table" *ngIf="ModulesComponent.etudiantChoice">
+    <div class="thead">
+        <div class="tr">
+            <div class="td">CIN</div>
+            <div class="td">Non</div>
+            <div class="td">Prenon</div>
+            <div class="td">Date Naissance</div> 
+            <div class="td">Email</div>
+            <!-- <div class="td">CV</div> -->
+            <div class="td">Date Inscription</div>
+            <div class="td">Diplôme</div>
+            <div class="td">Sujet</div>
+             <div class="td">Encadrant</div> 
+            <div class="td">Photo</div>
+            <div class="td"> </div>
+            <div class="td">Outils</div>
+            <div class="td">Evenements</div>
+            <div class="td">
+              <button style="width:150px" class="btn btn-outline-success" (click)="addModuleFormsEtudiant()">
+                  <i class="fa fa-plus"></i>Nouvel Etudiant
+              </button>
+            </div>
+           
+           
+            <div class="td">
+                <span *ngIf="notification" class="elementToFadeInAndOut">
+                    <i class="fas fa-check-circle {{notification.class}}"></i>
+                    {{notification.message}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="tbody">
+        <form class="tr"  [formGroup]="fg" *ngFor="let fg of etudiantForms.controls, let i=index" (submit)="recordSubmitEtudiant(fg)">
+          <div class="td">
+            <input class="form-control" formControlName="cin"  >
+          </div>
+          <div class="td">
+            <input class="form-control" formControlName="nom"  >
+          </div>
+          <div class="td">
+            <input class="form-control" formControlName="prenom"  >
+          </div>
+          <div class="td">
+            <input class="form-control" formControlName="dateNaissance">
+          </div>
+          <div class="td">
+            <input class="form-control" formControlName="email"  >
+          </div>
+          <!--
+          <div class="td">
+            <input class="form-control" formControlName="CV">
+          </div>-->
+          <div class="td">
+            <input class="form-control" formControlName="dateInscription"  >
+          </div>
+          <div class="td">
+            <select class="form-control"  formControlName="diplome">
+              <option value="mastere">mastere</option>
+              <option value="these">these</option>
+
+             </select>          </div> 
+        
+          <div class="td">
+            <input class="form-control" formControlName="sujet"  >
+          </div>
+
+          <div class="td">
+            <select class="form-control"  formControlName="encadrant">
+              <option value="0">Select</option>
+                 <option *ngFor="let enseignant of enseignantList" value="{{enseignant.id}}">{{enseignant.nom +" "+ enseignant.prenom}}</option>
+             </select>
+          </div>
+          <div class="td">
+            <img class="s-48" style="width: 48px; height: 48px;"
+            [src]="'https://upload.wikimedia.org/wikipedia/en/thumb/7/72/Avatar_icon_green.svg/1024px-Avatar_icon_green.svg.png'"
+            alt="photo"/>
+          </div>
+       
+          <div class="td">
+            <select class="form-control"  formControlName="outils" multiple>
+                 <option *ngFor="let outil of outilList" value="{{outil.id}}">{{outil.source}}</option>
+             </select>
+          </div>
+        
+        
+         
+        <div class="td">
+         
+          <button type="submit" class="btn btn-success" [disabled]="fg.invalid" 
+          [ngClass]="(fg.get('id').value==0)?'btn-success':'btn-outline-dark'"> <i class="far fa-save fa-lg"></i> 
+              <!-- tester le codefil si =0 submit sinon le botton c'est un update -->
+              {{fg.get('id').value==0?'Submit':'Update'}}
+          </button>
+        
+          <button type="button" class="btn btn-light ml-1" (click)="onDeleteEtudiant(fg.get('id').value,i)">
+              <i class="far fa-trash-alt fa-lg text-danger"></i>
+          </button>
+         </div>
+
+        </form>
+    </div>
+</div>
+    <div class="grid-table" *ngIf="ModulesComponent.enseignantChoice">
+      <div class="thead">
+          <div class="tr">
+              <div class="td">CIN</div>
+              <div class="td">Non</div>
+              <div class="td">Prenon</div>
+              <div class="td">Date Naissance</div>
+              <div class="td">Email</div>
+              <!-- <div class="td">CV</div> -->
+              <div class="td">Grade</div>
+              <div class="td">Etablissement</div>
+              <div class="td">Photo</div>   
+              <div class="td">
+                <button style="width:150px" class="btn btn-outline-success" (click)="addModuleFormsEnseignant()">
+                    <i class="fa fa-plus"></i>Nouvel Enseignant
+                </button>
+              </div>           
+            
+              <div class="td">
+                  <span *ngIf="notification" class="elementToFadeInAndOut">
+                      <i class="fas fa-check-circle {{notification.class}}"></i>
+                      {{notification.message}}
+                  </span>
+              </div>
+          </div>
+      </div>
+      <div class="tbody">
+          <form class="tr"  [formGroup]="fg" *ngFor="let fg of enseignantForms.controls, let i=index" (submit)="recordSubmitEnseignant(fg)">
+            <div class="td">
+              <input class="form-control" formControlName="cin"  >
+            </div>
+            <div class="td">
+              <input class="form-control" formControlName="nom"  >
+            </div>
+            <div class="td">
+              <input class="form-control" formControlName="prenom"  >
+            </div>
+            <div class="td">
+              <input class="form-control" formControlName="dateNaissance">
+            </div>
+            <div class="td">
+              <input class="form-control" formControlName="email"  >
+            </div>
+           <!-- <div class="td">
+              <input class="form-control" formControlName="cv">
+            </div>-->
+            <div class="td">
+              <input class="form-control" formControlName="grade"  >
+            </div> 
+          
+            <div class="td">
+              <input class="form-control" formControlName="etablissement"  >
+            </div>
+            
+            <div class="td">
+            <img class="s-48" style="width: 48px; height: 48px;"
+            [src]="'https://upload.wikimedia.org/wikipedia/en/thumb/7/72/Avatar_icon_green.svg/1024px-Avatar_icon_green.svg.png'"
+            alt="photo"/>
+          </div>
+
+          <div class="td">
+            <input type="button"  (click)=" openDialog(ModulesComponent.open,fg.get('id').value)" >
+          </div>
+          <div class="grid-table" *ngIf="ModulesComponent.open ">
+            <div class="thead">
+                <div class="tr">
+                    <div class="td">Id</div>
+                   
+                    <div class="td">
+                      <button style="width:150px" class="btn btn-outline-success" (click)=" addEvent_MemberForms(ModulesComponent.is)">
+                          <i class="fa fa-plus"></i>Nouvel Evenement
+                      </button>
+                    </div>           
+                  
+                    <div class="td">
+                        <span *ngIf="notification" class="elementToFadeInAndOut">
+                            <i class="fas fa-check-circle {{notification.class}}"></i>
+                            {{notification.message}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="tbody">
+                <form class="tr"  [formGroup]="fgg" *ngFor="let fgg of even_member_Forms.controls, let i=index" (submit)="affecterPartToEvent(fgg,fg)">
+                  <div class="td">
+                    <select class="form-control" formControlName="id">
+                         <option *ngFor="let seance of eventList" value="{{seance.id}}">{{seance.id}}</option>
+                     </select>
+                  </div>
+    
+                               
+                </form>
+                <div *ngIf="ModulesComponent.is">
+                <form class="tr"  [formGroup]="fggg"  *ngFor="let fggg of seanceForms.controls, let i=index" (submit)="affecterPartToEvent(fggg,fg)">
+                  <div class="td">
+  <select class="form-control" formControlName="id">
+                         <option *ngFor="let seance of eventList" value="{{seance.id}}">{{seance.id}}</option>
+                     </select>                  </div>
+                  <button type="submit" class="btn btn-success" [disabled]="fggg.invalid" 
+                  [ngClass]="(fggg.get('id').value==0)?'btn-success':'btn-outline-dark'"> <i class="far fa-save fa-lg"></i> 
+                      <!-- tester le codefil si =0 submit sinon le botton c'est un update -->
+                      {{fggg.get('id').value==0?'Submit':'Update'}}
+                  </button>         
+                               
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="td">
+            <button type="submit" class="btn btn-success" [disabled]="fg.invalid" 
+            [ngClass]="(fg.get('id').value==0)?'btn-success':'btn-outline-dark'"> <i class="far fa-save fa-lg"></i> 
+                <!-- tester le codefil si =0 submit sinon le botton c'est un update -->
+                {{fg.get('id').value==0?'Submit':'Update'}}
+            </button>
+       
+  
+           
+         
+           </div>
+          
+          
+          
+          </form>
+      </div>
+    </div>
+</div>
+
